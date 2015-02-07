@@ -37,7 +37,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 		return -1;
 	}
 
-	string startupJarPath = Platform::getBaseDir() + "Terasology.jar";
+	string startupJarPath = Platform::getBaseDir() + "libs" + Platform::directorySep + "Terasology.jar";
 
 	if (!Platform::fileExists(startupJarPath)) {
 		Platform::showError("Installation Error",
