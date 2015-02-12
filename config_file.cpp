@@ -37,8 +37,6 @@ void ConfigFile::load(string configFilePath) {
 			mProgramArguments.push_back(value);
 		} else if (key == "log") {
 			mLaunchLog = value;
-		} else if (key == "homedir") {
-			mHomeDirectory = value;
 		} else {
 			throw ConfigException("Invalid config option: " + key);
 		}

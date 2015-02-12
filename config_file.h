@@ -23,10 +23,6 @@ public:
 		return mJreDirectory;
 	}
 
-	string homeDirectory() {
-		return mHomeDirectory;
-	}
-
 	vector<string> programArguments() {
 		return mProgramArguments;
 	}
@@ -44,7 +40,6 @@ public:
 private:
 	string mLaunchLog;
 	string mJreDirectory;
-	string mHomeDirectory;
 	vector<string> mJvmArguments;
 	vector<string> mProgramArguments;
 };
