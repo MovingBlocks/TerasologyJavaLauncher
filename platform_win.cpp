@@ -8,7 +8,7 @@
 
 const char Platform::directorySep = '\\';
 
-string Platform::getBaseDir() {
+static string getExePath() {
 	char *exeFilenamePtr = NULL;
 
 	if (_get_pgmptr(&exeFilenamePtr)) {
@@ -17,7 +17,20 @@ string Platform::getBaseDir() {
 		return "";
 	}
 
-	string exeFilename(exeFilenamePtr);
+	return exeFilenamePtr;
+}
+
+string Platform::getConfigPath() {
+	string exePath = getExePath();
+	auto lastOf = exePath.find_last_of(".");
+	if (lastOf != string::npos) {
+		exePath = exePath.substr(0, lastOf);
+	}
+	return exePath + ".cfg";
+}
+
+string Platform::getBaseDir() {
+	string exeFilename = getExePath();
 
 	// Strip the executable filename
 	auto lastOf = exeFilename.find_last_of("\\/");

@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <conio.h>
+#include <cstdlib>
 
 #include "jli_library.h"
 #include "platform.h"
@@ -15,15 +16,33 @@
 using namespace std;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
-	if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
-		log() << "Unable to attach to the console of the parent process.\n";
-	}
-
+	
 	string basepath = Platform::getBaseDir();
 	log() << "Program base dir is '" << basepath << "'\n";
 
+	SetCurrentDirectoryA(basepath.c_str());
+
 	ConfigFile config;
-	config.load(basepath + Platform::directorySep + "launch.cfg");
+	try {
+		config.load(Platform::getConfigPath());
+	} catch (const ConfigException &e) {
+		Platform::showError("Configuration Error",
+			"Configuration error occured in " + Platform::getConfigPath() + ":\n"
+			+ e.message());
+		return -1;
+	}
+	
+
+	if (!config.launchLog().empty()) {
+		HANDLE hLogFile = CreateFile(config.launchLog().c_str(), GENERIC_WRITE, // open for writing
+			0,                      // do not share
+			NULL,                   // default security
+			CREATE_ALWAYS,             // create new file only
+			FILE_ATTRIBUTE_NORMAL,  // normal file
+			NULL);
+		SetStdHandle(STD_OUTPUT_HANDLE, hLogFile);
+		SetStdHandle(STD_ERROR_HANDLE, hLogFile);
+	}
 	
 	string jreHome = JreDetector::detectJre(config.jreDirectory());
 
@@ -47,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 	
 	try {
 		JliLibrary jliLibrary(jreHome);
-		return jliLibrary.launch(startupJarPath);
+		return jliLibrary.launch(startupJarPath, config.jvmArguments(), config.programArguments());
 	}
 	catch (const JliException &e) {
 		Platform::showError("Launch Error", e.message());

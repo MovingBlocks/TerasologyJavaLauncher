@@ -31,8 +31,12 @@ void ConfigFile::load(string configFilePath) {
 
 		if (key == "jredir") {
 			mJreDirectory = value;
-		} else if (key == "jvmargs") {
-			mJvmArguments = value;
+		} else if (key == "jvmarg") {
+			mJvmArguments.push_back(value);
+		} else if (key == "arg") {
+			mProgramArguments.push_back(value);
+		} else if (key == "log") {
+			mLaunchLog = value;
 		} else if (key == "homedir") {
 			mHomeDirectory = value;
 		} else {

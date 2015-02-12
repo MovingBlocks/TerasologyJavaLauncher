@@ -70,7 +70,7 @@ JliLibrary::~JliLibrary() {
 	}
 }
 
-int JliLibrary::launch(string startupJarPath) {
+int JliLibrary::launch(string startupJarPath, vector<string> jvmArgs, vector<string> programArgs) {	
 	int margc;
 	char** margv;
 		
@@ -88,10 +88,22 @@ int JliLibrary::launch(string startupJarPath) {
 	}
 	
 	// We pass in custom arguments to java
-	const char* customArgs[] = {"-jar", startupJarPath.c_str()};
+	vector<string> customArgs;
+	for (auto arg : jvmArgs) {
+		customArgs.push_back(arg);
+	}
+	customArgs.push_back("-jar");
+	customArgs.push_back(startupJarPath);
+	for (auto arg : programArgs) {
+		customArgs.push_back(arg);
+	}
+	const char** argptrs = new const char*[customArgs.size()];
+	for (size_t i = 0; i < customArgs.size(); ++i) {
+		argptrs[i] = customArgs[i].c_str();
+	}
 
 	int result = d->JLI_Launch(margc, margv,
-		sizeof(customArgs) / sizeof(char*), customArgs,
+		(int)customArgs.size(), argptrs,
 		0, NULL, // We dont use app classpath
 		FULL_VERSION,
 		DOT_VERSION,

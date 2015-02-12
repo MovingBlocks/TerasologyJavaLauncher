@@ -15,6 +15,13 @@ public:
 
 	static string ensureDirectorySep(const string &path);
 
+	/**
+		The configuration is expected to be at the executable path
+		and be named as the executable. Instead of .exe it ends with
+		.cfg though.
+	*/
+	static string getConfigPath();
+
 	static string getBaseDir();
 
 	static void showError(const string &title, const string &message);

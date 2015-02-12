@@ -1,5 +1,6 @@
 
 #include <string>
+#include <vector>
 #include <exception>
 
 using namespace std;
@@ -38,7 +39,7 @@ public:
 	JliLibrary(string jrePath);
 	~JliLibrary();
 
-	int launch(string startupJarPath);
+	int launch(string startupJarPath, vector<string> jvmArgs, vector<string> programArgs);
 
 private:
 	JliLibraryData *d;

@@ -1,5 +1,6 @@
 
 #include <string>
+#include <vector>
 #include <exception>
 
 using namespace std;
@@ -26,26 +27,24 @@ public:
 		return mHomeDirectory;
 	}
 
-	string jvmArguments() {
+	vector<string> programArguments() {
+		return mProgramArguments;
+	}
+
+	vector<string> jvmArguments() {
 		return mJvmArguments;
 	}
 
-	void setJreDirectory(string jreDirectory) {
-		mJreDirectory = jreDirectory;
-	}
-
-	void setHomeDiretory(string homeDirectory) {
-		mHomeDirectory = homeDirectory;
-	}
-
-	void setJvmArguments(string jvmArguments) {
-		mJvmArguments = jvmArguments;
+	string launchLog() {
+		return mLaunchLog;
 	}
 
 	void load(string configFilePath);
 
 private:
+	string mLaunchLog;
 	string mJreDirectory;
 	string mHomeDirectory;
-	string mJvmArguments;
+	vector<string> mJvmArguments;
+	vector<string> mProgramArguments;
 };
