@@ -34,3 +34,5 @@
 Debug
 Release
 x64
+*.pdb
+*.ilk

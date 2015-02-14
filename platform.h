@@ -27,6 +27,8 @@ public:
 	static void showError(const string &title, const string &message);
 
 	static bool fileExists(string path);
+
+	static void setWorkingDir(string path);
 	
 private:
 	Platform();

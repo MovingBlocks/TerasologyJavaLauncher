@@ -52,3 +52,7 @@ void Platform::showError(const string &title, const string &message) {
 bool Platform::fileExists(string path) {
 	return PathFileExists(path.c_str()) == TRUE;
 }
+
+void Platform::setWorkingDir(string path) {
+	SetCurrentDirectory(path.c_str());
+}

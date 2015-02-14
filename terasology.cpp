@@ -20,7 +20,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 	string basepath = Platform::getBaseDir();
 	log() << "Program base dir is '" << basepath << "'\n";
 
-	SetCurrentDirectoryA(basepath.c_str());
+	Platform::setWorkingDir(basepath);
 
 	ConfigFile config;
 	try {
@@ -32,19 +32,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 		return -1;
 	}
 	
-
 	if (!config.launchLog().empty()) {
-		HANDLE hLogFile = CreateFile(config.launchLog().c_str(), GENERIC_WRITE, // open for writing
-			0,                      // do not share
-			NULL,                   // default security
-			CREATE_ALWAYS,             // create new file only
-			FILE_ATTRIBUTE_NORMAL,  // normal file
-			NULL);
-		SetStdHandle(STD_OUTPUT_HANDLE, hLogFile);
-		SetStdHandle(STD_ERROR_HANDLE, hLogFile);
+		log().setFile(config.launchLog());
 	}
 	
 	string jreHome = JreDetector::detectJre(config.jreDirectory());
+	log() << "Effective Java Home being used: " << jreHome << "\n";
 
 	// No suitable JRE has been found
 	if (jreHome.empty()) {

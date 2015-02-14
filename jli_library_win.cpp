@@ -4,6 +4,9 @@
 
 #include "jli_library.h"
 #include "config.h"
+#include "log.h"
+
+#include "MinHook.h"
 
 /*
 	JLI parses our command line for us into argc/argv, it returns the following structure though.
@@ -70,10 +73,44 @@ JliLibrary::~JliLibrary() {
 	}
 }
 
+/*
+	This is an incredibly dirty hack.
+	jli.dll tries to guess the application home by calling GetModuleHandle and then basically going
+	up one directory. In our case, the exe is in the root so this will produce the wrong directory.
+	Because of that, it does not detect our bundled JVM in the JRE subdirectory, which sucks.
+
+	To get around this (without moving our exe file around), we instead fake return jli.dll's path
+	for GetModuleFileName(NULL) by hooking into the Kernel32.dll function.
+*/
+static string detourExePath;
+DWORD (*GetModuleFileNameAOrg)(HMODULE module, LPSTR filename, DWORD size);
+static DWORD __stdcall GetModuleFileNameDetour(HMODULE module, LPSTR filename, DWORD size) {	
+	if (!module && detourExePath.size() < size) {
+		memcpy(filename, detourExePath.c_str(), detourExePath.size());
+		filename[detourExePath.size()] = '\0';
+		return ERROR_SUCCESS;
+	}
+
+	return GetModuleFileNameAOrg(module, filename, size);
+}
+
 int JliLibrary::launch(string startupJarPath, vector<string> jvmArgs, vector<string> programArgs) {	
+	detourExePath = d->jliPath;
+
+	MH_Initialize();
+
+	// Terrible hack, but JLI on Windows is also terribly limited when it comes to detecting the
+	// Application home path. It just assumes that the binary lives in a "bin\" subdirectory.
+	// We are going to fake this
+	MH_STATUS status = MH_CreateHook(GetModuleFileNameA, GetModuleFileNameDetour, (LPVOID*)&GetModuleFileNameAOrg);
+	if (status != MH_OK) {
+		log() << "Could not initialize GetModuleHandle hook.\n";
+	}
+	MH_EnableHook(GetModuleFileNameA);
+
 	int margc;
 	char** margv;
-		
+
 	d->JLI_CmdToArgs(GetCommandLine());
 	margc = d->JLI_GetStdArgc();
 	// add one more to mark the end

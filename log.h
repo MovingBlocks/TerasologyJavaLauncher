@@ -7,6 +7,8 @@ class Log {
 public:
 	static Log instance;
 
+	void setFile(string filename);
+
 	Log &operator<<(const string &msg);
 
 	template<typename T>

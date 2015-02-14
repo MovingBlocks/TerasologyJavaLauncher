@@ -24,6 +24,12 @@
     <ClCompile Include="jli_library_win.cpp" />
     <ClCompile Include="jredetector.cpp" />
     <ClCompile Include="log.cpp" />
+    <ClCompile Include="log_win.cpp" />
+    <ClCompile Include="minhook-1.3\src\buffer.c" />
+    <ClCompile Include="minhook-1.3\src\HDE\hde32.c" />
+    <ClCompile Include="minhook-1.3\src\HDE\hde64.c" />
+    <ClCompile Include="minhook-1.3\src\hook.c" />
+    <ClCompile Include="minhook-1.3\src\trampoline.c" />
     <ClCompile Include="platform_win.cpp" />
     <ClCompile Include="terasology.cpp" />
     <ClCompile Include="jredetector_win.cpp" />
@@ -96,7 +102,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files %28x86%29\Java\jdk1.8.0_20\include;C:\Program Files %28x86%29\Java\jdk1.8.0_20\include\win32;$(IncludePath)</IncludePath>
-    <TargetName>Terasology.x64</TargetName>
+    <TargetName>Terasology.x64d</TargetName>
+    <OutDir>$(ProjectDir)\dist\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -107,6 +114,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Program Files %28x86%29\Java\jdk1.8.0_20\include;C:\Program Files %28x86%29\Java\jdk1.8.0_20\include\win32;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <TargetName>Terasology.x64</TargetName>
+    <OutDir>$(ProjectDir)\dist\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -115,7 +123,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\minhook-1.3\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -130,7 +138,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\minhook-1.3\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -147,7 +155,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\minhook-1.3\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -167,7 +175,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\minhook-1.3\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
