@@ -11,6 +11,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
+		Launcher Debug|Win32 = Launcher Debug|Win32
+		Launcher Debug|x64 = Launcher Debug|x64
 		Launcher Release|Win32 = Launcher Release|Win32
 		Launcher Release|x64 = Launcher Release|x64
 		Release|Win32 = Release|Win32
@@ -21,6 +23,10 @@ Global
 		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Debug|Win32.Build.0 = Debug|Win32
 		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Debug|x64.ActiveCfg = Debug|x64
 		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Debug|x64.Build.0 = Debug|x64
+		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Launcher Debug|Win32.ActiveCfg = Launcher Debug|Win32
+		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Launcher Debug|Win32.Build.0 = Launcher Debug|Win32
+		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Launcher Debug|x64.ActiveCfg = Launcher Debug|x64
+		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Launcher Debug|x64.Build.0 = Launcher Debug|x64
 		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Launcher Release|Win32.ActiveCfg = Launcher Release|Win32
 		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Launcher Release|Win32.Build.0 = Launcher Release|Win32
 		{11CC5DA5-4748-45D4-A0D9-CE2264396523}.Launcher Release|x64.ActiveCfg = Launcher Release|x64

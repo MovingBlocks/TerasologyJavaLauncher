@@ -83,7 +83,7 @@ JliLibrary::~JliLibrary() {
 	for GetModuleFileName(NULL) by hooking into the Kernel32.dll function.
 */
 static string detourExePath;
-DWORD (*GetModuleFileNameAOrg)(HMODULE module, LPSTR filename, DWORD size);
+DWORD(__stdcall *GetModuleFileNameAOrg)(HMODULE module, LPSTR filename, DWORD size);
 static DWORD __stdcall GetModuleFileNameDetour(HMODULE module, LPSTR filename, DWORD size) {	
 	if (!module && detourExePath.size() < size) {
 		memcpy(filename, detourExePath.c_str(), detourExePath.size());
