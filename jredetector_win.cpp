@@ -10,7 +10,12 @@
 #include "log.h"
 #include "platform.h"
 
-const CString JRE_KEY = "SOFTWARE\\JavaSoft\\Java Runtime Environment\\1.8";
+const int JRE_KEY_COUNT = 2;
+const CString JRE_KEYS[2] =
+{
+	"SOFTWARE\\JavaSoft\\Java Runtime Environment\\1.8",
+	"SOFTWARE\\JavaSoft\\Java Development Kit\\1.8"
+};
 const CString JAVA_HOME_KEY = "JavaHome";
 
 bool JreDetector::isValidJre(string javaHome) {
@@ -30,9 +35,15 @@ bool JreDetector::isValidJre(string javaHome) {
 string JreDetector::detectSystemJre() {
 	CRegKey regKey;
 	LSTATUS status;
-	if ((status = regKey.Open(HKEY_LOCAL_MACHINE, JRE_KEY, KEY_READ)) != ERROR_SUCCESS) {
-		log() << "Could not find registry key " << JRE_KEY.GetString() << " Status: " << status << "\n";
-		return "";
+
+	for (int key = 0; key < JRE_KEY_COUNT; key++) {
+		CString jreKey = JRE_KEYS[key];
+		if ((status = regKey.Open(HKEY_LOCAL_MACHINE, jreKey, KEY_READ)) != ERROR_SUCCESS) {
+			log() << "Could not find registry key " << jreKey.GetString() << " Status: " << status << "\n";
+			if (key == JRE_KEY_COUNT - 1) {
+				return "";
+			}
+		}
 	}
 
 	char javaHome[MAX_PATH + 1];
